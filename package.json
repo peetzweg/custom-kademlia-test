@@ -1,0 +1,27 @@
+{
+  "name": "kadtest",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsc && node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@chainsafe/libp2p-noise": "^16.0.1",
+    "@chainsafe/libp2p-yamux": "^7.0.1",
+    "@libp2p/identify": "^3.0.15",
+    "@libp2p/kad-dht": "^14.2.0",
+    "@libp2p/mplex": "^11.0.17",
+    "@libp2p/peer-id": "^5.0.10",
+    "@libp2p/tcp": "^10.0.15",
+    "@libp2p/websockets": "^9.1.2",
+    "@multiformats/multiaddr": "^12.3.4",
+    "libp2p": "^2.5.0"
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+}
