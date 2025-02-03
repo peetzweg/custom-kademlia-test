@@ -147,8 +147,8 @@ fastify.get("/ipfs/:cid", async (request, reply) => {
     // Fetch the block
     const block = await heliaNode.blockstore.get(parsedCid);
 
-    // Check if the codec is dag-json (0x0129)
-    if (parsedCid.code === 0x0129) {
+    // Check if the codec is dag-json (0x0129) or json (0x0200)
+    if (parsedCid.code === 0x0129 || parsedCid.code === 0x0200) {
       try {
         const text = new TextDecoder().decode(block);
         const json = JSON.parse(text);
@@ -161,7 +161,7 @@ fastify.get("/ipfs/:cid", async (request, reply) => {
       }
     }
 
-    // For non-dag-json content, try to decode as UTF-8 text first
+    // For non-json content, try to decode as UTF-8 text first
     try {
       const text = new TextDecoder().decode(block);
       reply.header("Content-Type", "text/plain");
