@@ -9,6 +9,7 @@ import { createLibp2p } from "libp2p";
 import { multiaddr } from "@multiformats/multiaddr";
 import { MemoryBlockstore } from "blockstore-core";
 import { CID } from "multiformats/cid";
+import { blake2b256 } from "@multiformats/blake2/blake2b";
 
 async function startHeliaNode(targetMultiaddr: string, cidString: string) {
   // Create a libp2p node with our custom configuration
@@ -28,6 +29,7 @@ async function startHeliaNode(targetMultiaddr: string, cidString: string) {
     const helia = await createHelia({
       libp2p,
       blockstore,
+      hashers: [blake2b256],
     });
 
     console.log(
