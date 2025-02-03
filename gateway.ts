@@ -75,6 +75,37 @@ try {
   process.exit(1);
 }
 
+// Define health check route
+fastify.get("/health", async (request, reply) => {
+  const bootnode = multiaddr(PEER_CONFIG.BOOTNODE);
+  const bootnodePeerId = bootnode.getPeerId();
+  const connectedPeerIds = Array.from(heliaNode.libp2p.getPeers()).map((peer) =>
+    peer.toString()
+  );
+  const isConnectedToBootnode = bootnodePeerId
+    ? connectedPeerIds.includes(bootnodePeerId)
+    : false;
+
+  const health = {
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    node: {
+      peerId: heliaNode.libp2p.peerId.toString(),
+      connectedPeers: connectedPeerIds.length,
+      bootnode: {
+        address: PEER_CONFIG.BOOTNODE,
+        connected: isConnectedToBootnode,
+      },
+    },
+    server: {
+      host: SERVER_CONFIG.HOST,
+      port: SERVER_CONFIG.PORT,
+    },
+  };
+
+  return health;
+});
+
 // Define route to get IPFS blocks
 fastify.get("/ipfs/:cid", async (request, reply) => {
   const { cid } = request.params as { cid: string };
@@ -86,7 +117,21 @@ fastify.get("/ipfs/:cid", async (request, reply) => {
     // Fetch the block
     const block = await heliaNode.blockstore.get(parsedCid);
 
-    // Try to decode as UTF-8 text first
+    // Check if the codec is dag-json (0x0129)
+    if (parsedCid.code === 0x0129) {
+      try {
+        const text = new TextDecoder().decode(block);
+        const json = JSON.parse(text);
+        reply.header("Content-Type", "application/json");
+        return json;
+      } catch (parseErr) {
+        // If JSON parsing fails, fall back to binary
+        reply.header("Content-Type", "application/octet-stream");
+        return block;
+      }
+    }
+
+    // For non-dag-json content, try to decode as UTF-8 text first
     try {
       const text = new TextDecoder().decode(block);
       reply.header("Content-Type", "text/plain");
@@ -104,6 +149,18 @@ fastify.get("/ipfs/:cid", async (request, reply) => {
 
 // Start the server
 try {
+  // Print configuration summary
+  console.log("\nStarting gateway with configuration:");
+  console.log("==================================");
+  console.log("Server Configuration:");
+  console.log(`  Host: ${SERVER_CONFIG.HOST}`);
+  console.log(`  Port: ${SERVER_CONFIG.PORT}`);
+  console.log("\nPeer Configuration:");
+  console.log(`  Bootnode: ${PEER_CONFIG.BOOTNODE}`);
+  console.log("\nDHT Configuration:");
+  console.log(`  Protocol: ${DHT_PROTOCOL || "default"}`);
+  console.log("==================================\n");
+
   await fastify.listen({
     port: SERVER_CONFIG.PORT,
     host: SERVER_CONFIG.HOST,
