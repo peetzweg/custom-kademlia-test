@@ -17,7 +17,8 @@ async function pingPeer(targetMultiaddr: string) {
     services: {
       identify: identify(),
       dht: kadDHT({
-        protocol: "/dot/kad/1.0.0",
+        protocol:
+          "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad",
         clientMode: true,
       }),
     },

@@ -18,7 +18,7 @@ async function startNode() {
     services: {
       dht: kadDHT({
         protocol:
-          "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad/1.0.0",
+          "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad",
         clientMode: false,
       }),
       identify: identify(),
