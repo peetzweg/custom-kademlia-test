@@ -19,7 +19,11 @@ async function startHeliaNode(targetMultiaddr: string, cidString: string) {
     streamMuxers: [yamux()],
     services: {
       identify: identify(),
-      dht: kadDHT(),
+      dht: kadDHT({
+        protocol:
+          "/f2a6b4e89857a1d65c9a068ef6280dcbc5f96055fd01131188f9d764b54d87e8/kad",
+        clientMode: true,
+      }),
     },
   });
 
