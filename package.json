@@ -8,7 +8,8 @@
     "pong": "tsc && node dist/ping.js",
     "kad": "tsc && node dist/kadnode.js",
     "identity": "tsc && node dist/identity.js",
-    "helia": "tsc && node dist/helia.js"
+    "helia": "tsc && node dist/helia.js",
+    "blocks": "tsc && node dist/list-blocks.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -21,16 +22,19 @@
     "@chainsafe/libp2p-yamux": "^7.0.1",
     "@libp2p/identify": "^3.0.15",
     "@libp2p/interface-libp2p": "^3.2.0",
+    "@libp2p/interface-peer-id": "^2.0.2",
     "@libp2p/kad-dht": "^14.2.0",
     "@libp2p/mplex": "^11.0.17",
     "@libp2p/peer-id": "^5.0.10",
+    "@libp2p/peer-id-factory": "^4.0.5",
     "@libp2p/tcp": "^10.0.15",
     "@libp2p/websockets": "^9.1.2",
     "@multiformats/multiaddr": "^12.3.4",
     "blockstore-core": "^5.0.2",
     "helia": "^5.2.0",
     "libp2p": "^2.5.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "uint8arrays": "^5.0.2"
   },
   "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
 }

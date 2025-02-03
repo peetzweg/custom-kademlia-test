@@ -18,11 +18,7 @@ async function startHeliaNode(targetMultiaddr: string, cidString: string) {
     streamMuxers: [yamux()],
     services: {
       identify: identify(),
-      dht: kadDHT({
-        protocol:
-          "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad",
-        clientMode: true,
-      }),
+      dht: kadDHT(),
     },
   });
 
@@ -41,7 +37,8 @@ async function startHeliaNode(targetMultiaddr: string, cidString: string) {
 
     // Connect to the target peer
     console.log(`\nConnecting to ${targetMultiaddr}...`);
-    await helia.libp2p.dial(multiaddr(targetMultiaddr));
+    const targetPeer = multiaddr(targetMultiaddr);
+    await helia.libp2p.dial(targetPeer);
     console.log("Connected successfully!");
 
     // Parse the CID
@@ -49,8 +46,11 @@ async function startHeliaNode(targetMultiaddr: string, cidString: string) {
     console.log(`\nAttempting to fetch block with CID: ${cid.toString()}`);
 
     try {
-      // Try to get the block
-      const block = await blockstore.get(cid);
+      // Wait a moment for the DHT to be ready and connection to be established
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Try to get the block - Helia will automatically use bitswap to fetch from peers
+      const block = await helia.blockstore.get(cid);
       console.log("\nSuccessfully retrieved block:");
       console.log("Block data:", new TextDecoder().decode(block));
     } catch (err) {
