@@ -7,7 +7,8 @@
     "protocols": "tsc && node dist/get-protocols.js",
     "pong": "tsc && node dist/ping.js",
     "kad": "tsc && node dist/kadnode.js",
-    "identity": "tsc && node dist/identity.js"
+    "identity": "tsc && node dist/identity.js",
+    "helia": "tsc && node dist/helia.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -26,6 +27,8 @@
     "@libp2p/tcp": "^10.0.15",
     "@libp2p/websockets": "^9.1.2",
     "@multiformats/multiaddr": "^12.3.4",
+    "blockstore-core": "^5.0.2",
+    "helia": "^5.2.0",
     "libp2p": "^2.5.0",
     "ts-node": "^10.9.2"
   },

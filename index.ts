@@ -16,7 +16,11 @@ const node = await createLibp2p({
   connectionEncrypters: [noise()],
   streamMuxers: [yamux()],
   services: {
-    dht: kadDHT(),
+    dht: kadDHT({
+      protocol:
+        "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad", // Match Polkadot's protocol
+      clientMode: false,
+    }),
     identify: identify(),
   },
 });
@@ -49,7 +53,8 @@ try {
     // Genesis
     // ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f
     const kadProtocols = [
-      "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad/1.0.0",
+      "/ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/kad",
+      // /ddb1e4f77487bc0e05aeb2d3605bd20dfcfd3b6a42cafb718bacbeb0c7a7a60f/sync/2
       "/ipfs/kad/1.0.0",
       "/ipfs/kad/2.0.0",
       "/libp2p/kad/1.0.0",
