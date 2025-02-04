@@ -38,6 +38,7 @@
     "fastify": "^5.2.1",
     "helia": "^5.2.0",
     "libp2p": "^2.5.0",
+    "multiformats": "^13.3.1",
     "ts-node": "^10.9.2",
     "uint8arrays": "^5.0.2"
   },
